@@ -15,7 +15,11 @@ public class LoginGui  extends JFrame {
  private void addGuiComponents(){
      //login image
      JLabel loginImage=CustomTools.loadImage(CommonConstraints.LOGIN_IMAGE_PATH);
-     loginImage.setBounds();
+     loginImage.setBounds((CommonConstraints.FRAME_SIZE.width - loginImage.getPreferredSize().width)/2,
+     25, CommonConstraints.LOGIN_IMAGE_SIZE.width,CommonConstraints.LOGIN_IMAGE_SIZE.height
+             );
+     //Username field
+
  }
 
 }
