@@ -20,6 +20,9 @@ public class PasswordFieldCustom extends JPasswordField {
         //limit char input in field
         setDocument(new LimitText(charLimit));
         setText(this.placeholderText);
+
+       //changes styling to text
+        setEchoChar((char) 0);
         addListeners();
     }
     private void addListeners(){
@@ -30,6 +33,7 @@ public class PasswordFieldCustom extends JPasswordField {
                 if (hasPlaceHolder){
                     hasPlaceHolder=false;
                     setText(" ");
+                    setEchoChar('*');
                 }
             }
         });
@@ -40,6 +44,7 @@ public class PasswordFieldCustom extends JPasswordField {
                 if (hasPlaceHolder){
                     hasPlaceHolder=false;
                     setText("");
+                    setEchoChar('*');
                 }
             }
         });
@@ -56,6 +61,7 @@ public class PasswordFieldCustom extends JPasswordField {
                 if (getText().toString().length()<=0){
                     hasPlaceHolder=true;
                     setText(placeholderText);
+                    setEchoChar((char) 0);
                 }
             }
         });
