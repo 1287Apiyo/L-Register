@@ -1,17 +1,16 @@
 package custom;
 
-
 import javax.swing.*;
 import java.awt.event.*;
 
-public class TextFieldCustom extends JTextField {
+public class PasswordFieldCustom extends JPasswordField {
     private String placeholderText;
     private boolean hasPlaceHolder;
     public boolean isHasPlaceHolder() {
         return hasPlaceHolder;
     }
 
-    public TextFieldCustom(String placeholderText, int charLimit){
+    public PasswordFieldCustom(String placeholderText, int charLimit){
         super();
         this.placeholderText=placeholderText;
 
@@ -19,9 +18,9 @@ public class TextFieldCustom extends JTextField {
         hasPlaceHolder=true;
 
         //limit char input in field
-     setDocument(new LimitText(charLimit));
-     setText(this.placeholderText);
-     addListeners();
+        setDocument(new LimitText(charLimit));
+        setText(this.placeholderText);
+        addListeners();
     }
     private void addListeners(){
         //check for mouse clicks
@@ -29,8 +28,8 @@ public class TextFieldCustom extends JTextField {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (hasPlaceHolder){
-                   hasPlaceHolder=false;
-                   setText(" ");
+                    hasPlaceHolder=false;
+                    setText(" ");
                 }
             }
         });
@@ -53,7 +52,7 @@ public class TextFieldCustom extends JTextField {
 
             @Override
             public void focusLost(FocusEvent e) {
-             //check if it is empty
+                //check if it is empty
                 if (getText().toString().length()<=0){
                     hasPlaceHolder=true;
                     setText(placeholderText);
