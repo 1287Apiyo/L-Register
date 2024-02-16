@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 public class LoginGui  extends JFrame implements ActionListener {
     private TextFieldCustom usernameField;
+
     private PasswordFieldCustom passwordField;
     public LoginGui(){
      super("Apiyo Ind. Login");
@@ -29,7 +30,7 @@ public class LoginGui  extends JFrame implements ActionListener {
              CommonConstraints.LOGIN_IMAGE_SIZE.width, CommonConstraints.LOGIN_IMAGE_SIZE.height
      );
      //Username field
-     TextFieldCustom usernameField = new TextFieldCustom("Enter Username", 30);
+     usernameField = new TextFieldCustom("Enter Username", 30);
 usernameField.setBounds(50,loginImage.getY() + 315,CommonConstraints.TEXTFIELD_SIZE.width,CommonConstraints.TEXTFIELD_SIZE.height
 );
 
@@ -92,7 +93,12 @@ usernameField.setBounds(50,loginImage.getY() + 315,CommonConstraints.TEXTFIELD_S
                  //display an incorrect password dialog
                  resultLabel.setText("INVALID PASSWORD");
              }
+         }else {
+             //display an incorrect username dialog
+             resultLabel.setText("Invalid Username");
+
          }
+         resultDialog.setVisible(true);
      }
     }
 }
