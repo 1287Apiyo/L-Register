@@ -4,14 +4,11 @@ import custom.TextFieldCustom;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterGui  extends JFrame implements FocusListener{
+public class RegisterGui  extends JFrame implements ActionListener,FocusListener{
     private ErrorLabel usernameErrorLabel,passwordErrorLabel,confirmPasswordErrorLabel,emailErrorLabel;
     private TextFieldCustom usernameField,emailField;
     private PasswordFieldCustom passwordField,confirmPasswordField;
@@ -113,7 +110,7 @@ public class RegisterGui  extends JFrame implements FocusListener{
                 emailField.getY() + 100,
                 CommonConstraints.TEXTFIELD_SIZE.width,CommonConstraints.TEXTFIELD_SIZE.height
         );
-
+  registerButton.addActionListener(this);
         //register->login label
         JLabel loginLabel=new JLabel("Already a user?Login Here!");
         loginLabel.setBounds(
@@ -160,7 +157,7 @@ public class RegisterGui  extends JFrame implements FocusListener{
                 usernameErrorLabel.setVisible(false);
             }
         } else if (fieldSource == passwordField){
-            String passwordRegex="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\\\S+$).{8, 20}$";
+            String passwordRegex="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\\\S+$).{8,} 20}$";
             Pattern p =Pattern.compile(passwordRegex);
             Matcher m=p.matcher(passwordField.getText());
             if (!m.find())passwordErrorLabel.setVisible(true);
@@ -175,7 +172,7 @@ public class RegisterGui  extends JFrame implements FocusListener{
             
         }else if (fieldSource==emailField){
             //checks validity of the email
-            String emailRegex=" ^[A-Za-z0-9+_.-]+@(.+)$";
+            String emailRegex=" ^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
             Pattern p= Pattern.compile(emailRegex);
             Matcher m = p.matcher(emailField.getText());
             if (!m.find())emailErrorLabel.setVisible(true);
@@ -183,5 +180,50 @@ public class RegisterGui  extends JFrame implements FocusListener{
         }
 
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+    String command =e.getActionCommand();
+    if (command.equals("Register")){
+boolean isValid=!usernameErrorLabel.isVisible() && !passwordErrorLabel.isVisible() && !confirmPasswordErrorLabel.isVisible()
+        && !emailErrorLabel.isVisible() && !usernameField.isHasPlaceHolder() && !passwordField.isHasPlaceHolder()
+        && !confirmPasswordField.isHasPlaceHolder() && !emailField.isHasPlaceHolder();
+
+//result dialog
+        JDialog resultDialog=new JDialog();
+        resultDialog.setSize(CommonConstraints.RESULT_DIALOG_SIZE);
+        resultDialog.setLocationRelativeTo(this);
+        resultDialog.setModal(true);
+
+        //result label
+        JLabel resultLabel=new JLabel();
+        resultLabel.setPreferredSize(CommonConstraints.RESULT_DIALOG_SIZE);
+        resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        resultDialog.add(resultLabel);
+
+        if (isValid){
+            //store the info into userdb
+            String username=usernameField.getText();
+            String password =passwordField.getText();
+            UserDB.addUser(username,password);
+
+            //show a dialog that shows the user has been added to the userdb
+            resultLabel.setText("Account Registered");
+
+            //take user back to the login gui
+            resultDialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    dispose();
+                    new LoginGui().setVisible(true);
+                }
+            });
+        }else {
+            //show an error label
+            resultLabel.setText("Invalid Credentials");
+        }
+       resultDialog.setVisible(true);
+    }
     }
 }
