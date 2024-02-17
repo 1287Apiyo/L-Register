@@ -9,7 +9,11 @@ public class CommonConstraints {
     public static final Dimension BUTTON_SIZE= TEXTFIELD_SIZE;
 
     //login configuration
-    public static final Dimension LOGIN_IMAGE_SIZE= new Dimension(255,262);
+    public static final Dimension LOGIN_IMAGE_SIZE= new Dimension(FRAME_SIZE.width,262);
+
+    //register configuration
+    public static final Dimension REGISTER_LABEL_SIZE= new Dimension(255,150);
+
 
     //result dialog configuration
     public static final Dimension RESULT_DIALOG_SIZE=new Dimension((int)(FRAME_SIZE.width/3),(int)(FRAME_SIZE.height/6));

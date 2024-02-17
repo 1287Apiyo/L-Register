@@ -7,6 +7,7 @@ public class App {
             public void run() {
 
                 new LoginGui().setVisible(true);
+                new RegisterGui().setVisible(true);
             }
         });
     }
