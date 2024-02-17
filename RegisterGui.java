@@ -20,6 +20,7 @@ public class RegisterGui  extends JFrame implements ActionListener,FocusListener
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setLayout(null);
+        getContentPane().setBackground(CommonConstraints.PRIMARY_COLOR);
 
         addGuiComponent();
 
@@ -29,6 +30,7 @@ public class RegisterGui  extends JFrame implements ActionListener,FocusListener
     public void addGuiComponent(){
         JLabel registerLabel=new JLabel("Register");
         registerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        registerLabel.setForeground(CommonConstraints.SECONDARY_COLOR);
         registerLabel.setBounds(
                 0,
                 0,
@@ -39,6 +41,8 @@ public class RegisterGui  extends JFrame implements ActionListener,FocusListener
         );
         //Username field
         usernameField = new TextFieldCustom("Enter username",30);
+        usernameField.setBackground(CommonConstraints.SECONDARY_COLOR);
+        usernameField.setBackground(Color.WHITE);
         usernameField.setBounds(
                 50,
                 registerLabel.getY() + 150,
@@ -54,6 +58,8 @@ public class RegisterGui  extends JFrame implements ActionListener,FocusListener
 
         //password field
         passwordField=new PasswordFieldCustom("Enter Password",30);
+        passwordField.setBackground(CommonConstraints.SECONDARY_COLOR);
+       passwordField.setBackground(Color.WHITE);
         passwordField.setBounds(50,
                 usernameField.getY() + 100,
                 CommonConstraints.TEXTFIELD_SIZE.width, CommonConstraints.TEXTFIELD_SIZE.height
@@ -71,6 +77,8 @@ public class RegisterGui  extends JFrame implements ActionListener,FocusListener
 
         //confirm the password field
         confirmPasswordField=new PasswordFieldCustom("Confirm Password",30);
+        confirmPasswordField.setBackground(CommonConstraints.SECONDARY_COLOR);
+        confirmPasswordField.setBackground(Color.WHITE);
         confirmPasswordField.setBounds(
                 50,
                 passwordField.getY() + 100,
@@ -88,6 +96,8 @@ public class RegisterGui  extends JFrame implements ActionListener,FocusListener
 
        //email field
         emailField=new TextFieldCustom("Enter E-Mail",30);
+        emailField.setBackground(CommonConstraints.SECONDARY_COLOR);
+        emailField.setBackground(Color.WHITE);
         emailField.setBounds(
                 50,
                 confirmPasswordField.getY() + 100,
@@ -97,6 +107,7 @@ public class RegisterGui  extends JFrame implements ActionListener,FocusListener
         emailField.addFocusListener(this);
         //email error label
         emailErrorLabel=new ErrorLabel("*Invalid:Not a valid format");
+
         emailErrorLabel.setBounds(
                 50,emailField.getY() + 50,
                 CommonConstraints.TEXTFIELD_SIZE.width, CommonConstraints.TEXTFIELD_SIZE.height
@@ -105,6 +116,8 @@ public class RegisterGui  extends JFrame implements ActionListener,FocusListener
 
         //register button
         JButton registerButton=new JButton("Register");
+        registerButton.setBackground(CommonConstraints.BUTTON_COLOR);
+        registerButton.setForeground(Color.WHITE);
         registerButton.setBounds(
                 50,
                 emailField.getY() + 100,
@@ -113,12 +126,47 @@ public class RegisterGui  extends JFrame implements ActionListener,FocusListener
   registerButton.addActionListener(this);
         //register->login label
         JLabel loginLabel=new JLabel("Already a user?Login Here!");
+        loginLabel.setForeground(CommonConstraints.SECONDARY_COLOR);
         loginLabel.setBounds(
                 (CommonConstraints.FRAME_SIZE.width - loginLabel.getPreferredSize().width)/2,
                 registerButton.getY() + 100,
                 loginLabel.getPreferredSize().width,loginLabel.getPreferredSize().height
         );
+        registerLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                dispose();
+                new LoginGui().setVisible(true);
+            }
 
+            @Override
+            public void mouseEntered(MouseEvent e) {
+               loginLabel.setForeground(Color.WHITE);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                loginLabel.setForeground(CommonConstraints.SECONDARY_COLOR);
+            }
+        });
+     loginLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+     loginLabel.addMouseListener(new MouseAdapter() {
+         @Override
+         public void mouseClicked(MouseEvent e) {
+             dispose();
+             new LoginGui().setVisible(true);
+         }
+
+         @Override
+         public void mouseEntered(MouseEvent e) {
+             super.mouseEntered(e);
+         }
+
+         @Override
+         public void mouseExited(MouseEvent e) {
+             super.mouseExited(e);
+         }
+     });
         //add to frame
         getContentPane().add(registerLabel);
         //username
@@ -157,7 +205,7 @@ public class RegisterGui  extends JFrame implements ActionListener,FocusListener
                 usernameErrorLabel.setVisible(false);
             }
         } else if (fieldSource == passwordField){
-            String passwordRegex="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\\\\S+$).{8,} 20}$";
+            String passwordRegex="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&-+=()<>~`])(?=\\\\S+$).{6,30}$";
             Pattern p =Pattern.compile(passwordRegex);
             Matcher m=p.matcher(passwordField.getText());
             if (!m.find())passwordErrorLabel.setVisible(true);
@@ -172,7 +220,7 @@ public class RegisterGui  extends JFrame implements ActionListener,FocusListener
             
         }else if (fieldSource==emailField){
             //checks validity of the email
-            String emailRegex=" ^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+            String emailRegex="^[a-zA-Z0-9_+&*-]+(?:\\\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,7}$ ";
             Pattern p= Pattern.compile(emailRegex);
             Matcher m = p.matcher(emailField.getText());
             if (!m.find())emailErrorLabel.setVisible(true);
@@ -195,12 +243,14 @@ boolean isValid=!usernameErrorLabel.isVisible() && !passwordErrorLabel.isVisible
         resultDialog.setSize(CommonConstraints.RESULT_DIALOG_SIZE);
         resultDialog.setLocationRelativeTo(this);
         resultDialog.setModal(true);
+        resultDialog.getContentPane().setBackground(CommonConstraints.PRIMARY_COLOR);
 
         //result label
         JLabel resultLabel=new JLabel();
         resultLabel.setPreferredSize(CommonConstraints.RESULT_DIALOG_SIZE);
         resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
         resultDialog.add(resultLabel);
+        resultLabel.setForeground(CommonConstraints.SECONDARY_COLOR);
 
         if (isValid){
             //store the info into userdb
